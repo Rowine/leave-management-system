@@ -1,0 +1,23 @@
+{
+  "name": "leave-management-system",
+  "version": "1.0.0",
+  "description": "A leave management system built with MERN stack",
+  "main": "server.js",
+  "author": "Rowine",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "server": "nodemon backend/server",
+    "client": "yarn --cwd frontend dev",
+    "dev": "concurrently \"yarn server\" \"yarn client\""
+  },
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.22"
+  }
+}
