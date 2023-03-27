@@ -1,0 +1,17 @@
+import chalk from 'chalk'
+import mongoose from 'mongoose'
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI)
+
+    console.log(
+      chalk.cyan.underline(`MongoDB Connected: ${conn.connection.host}`)
+    )
+  } catch (error) {
+    console.error(chalk.red.underline.bold`Error: ${error.message}`)
+    process.exit(1)
+  }
+}
+
+export default connectDB
