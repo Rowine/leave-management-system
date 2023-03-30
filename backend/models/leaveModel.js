@@ -7,10 +7,6 @@ const leaveSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
-    leaveType: {
-      type: String,
-      required: true,
-    },
     startDate: {
       type: Date,
       required: true,
@@ -38,7 +34,7 @@ const leaveSchema = mongoose.Schema(
       ref: 'User',
       default: null,
     },
-    approvedDate: {
+    approvedAt: {
       type: Date,
     },
     rejectedBy: {
@@ -46,7 +42,7 @@ const leaveSchema = mongoose.Schema(
       ref: 'User',
       default: null,
     },
-    rejectedDate: {
+    rejectedAt: {
       type: Date,
     },
   },

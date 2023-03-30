@@ -3,9 +3,9 @@ import dotenv from 'dotenv'
 import express from 'express'
 import connectDB from './config/db.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
+import categoryRoutes from './routes/categoryRoutes.js'
+import leaveRoutes from './routes/leaveRoutes.js'
 import userRoutes from './routes/userRoutes.js'
-// import {} from './routes/leaveRoutes.js'
-// import {} from './routes/categoryRoutes.js'
 
 dotenv.config()
 
@@ -16,8 +16,8 @@ const app = express()
 app.use(express.json())
 
 app.use('/api/users', userRoutes)
-// app.use('/api/leaves', leaveRoutes)
-// app.use('/api/categories', categoryRoutes)
+app.use('/api/leaves', leaveRoutes)
+app.use('/api/categories', categoryRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
