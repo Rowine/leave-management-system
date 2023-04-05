@@ -9,7 +9,7 @@ import RegisterPage from './pages/RegisterPage'
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/">
       <ToastContainer
         position="top-right"
         autoClose={5000}
