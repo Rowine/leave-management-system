@@ -41,12 +41,25 @@ const deleteLeave = asyncHandler(async (req, res) => {
 // @route   POST /api/leaves
 // @access  Private
 const createLeave = asyncHandler(async (req, res) => {
+  const { startDate, endDate, reason, category } = req.body
+  const userId = req.user._id
+
+  const existingLeave = await Leave.findOne({
+    user: userId,
+    startDate,
+    status: 'Pending',
+  })
+  if (existingLeave) {
+    res.status(400)
+    throw new Error('Leave date already exists')
+  }
+
   const leave = new Leave({
-    user: req.user._id,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate,
-    reason: req.body.reason,
-    category: req.body.category,
+    user: userId,
+    startDate,
+    endDate,
+    reason,
+    category,
   })
 
   const createdLeave = await leave.save()

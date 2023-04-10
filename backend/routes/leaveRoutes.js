@@ -16,7 +16,7 @@ router
   .route('/:id')
   .get(protect, getLeaveById)
   .delete(protect, deleteLeave)
-  .put(protect, admin, updateLeave)
+  .put(protect, updateLeave)
 router.route('/:id/approve').put(protect, admin, approveLeave)
 router.route('/:id/reject').put(protect, admin, rejectLeave)
 

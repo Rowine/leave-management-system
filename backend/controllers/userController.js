@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler'
+import Leave from '../models/leaveModel.js'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
 
@@ -165,9 +166,24 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc     Get all leaves of a user by ID
+// @route    GET /api/users/:id/leaves
+// @access   Private
+const getLeaveByUserId = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+  if (user) {
+    const userLeaves = await Leave.find({ user: user._id })
+    res.json(userLeaves)
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
 export {
   authUser,
   deleteUser,
+  getLeaveByUserId,
   getUserById,
   getUserProfile,
   getUsers,
