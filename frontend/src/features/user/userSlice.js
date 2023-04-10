@@ -71,6 +71,8 @@ const userSlice = createSlice({
     logout: (state) => {
       localStorage.removeItem('userInfo')
       state.userInfo = null
+      state.loading = 'idle'
+      state.error = null
     },
   },
   extraReducers: (builder) =>

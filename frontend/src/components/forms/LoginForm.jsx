@@ -24,7 +24,6 @@ const LoginForm = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       dispatch(login({ email: values.email, password: values.password }))
-
       formik.resetForm()
     },
   })

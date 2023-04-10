@@ -1,10 +1,13 @@
-import { Button } from 'react-bootstrap'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Button, Container } from 'react-bootstrap'
 import Nav from 'react-bootstrap/Nav'
-import NavDropdown from 'react-bootstrap/NavDropdown'
 import Navbar from 'react-bootstrap/Navbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { toast } from 'react-toastify'
+import { categoryReset } from '../features/category/categorySlice'
+import { leavesReset } from '../features/leave/leaveSlice'
 import { logout } from '../features/user/userSlice'
 
 const Header = () => {
@@ -13,6 +16,9 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout())
+    dispatch(leavesReset())
+    dispatch(categoryReset())
+
     navigate('/')
     toast.success('Logout successfully')
   }
@@ -20,21 +26,26 @@ const Header = () => {
   if (userInfo) {
     return (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">L.M.S</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <LinkContainer to="/home">
-              <Nav.Link>Home</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/profile">
-              <Nav.Link>Profile</Nav.Link>
-            </LinkContainer>
-          </Nav>
-          <Button variant="primary" onClick={handleLogout}>
-            Logout as <strong>{userInfo.name}</strong>
-          </Button>
-        </Navbar.Collapse>
+        <Container fluid>
+          <LinkContainer to="/home">
+            <Navbar.Brand>L.M.S</Navbar.Brand>
+          </LinkContainer>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <LinkContainer to="/home">
+                <Nav.Link>Home</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/profile">
+                <Nav.Link>Profile</Nav.Link>
+              </LinkContainer>
+            </Nav>
+            <Button variant="primary" onClick={handleLogout}>
+              <FontAwesomeIcon icon={faRightFromBracket} /> Logout as{' '}
+              <strong>{userInfo.name}</strong>
+            </Button>
+          </Navbar.Collapse>
+        </Container>
       </Navbar>
     )
   }
