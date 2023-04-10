@@ -2,16 +2,8 @@ import { useFormik } from 'formik'
 import { Button, Form } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import * as yup from 'yup'
 import { login } from '../../features/user/userSlice'
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Email must be a valid email address')
-    .required('Email is required'),
-  password: yup.string().required('Password is required'),
-})
+import { userLoginSchema } from '../../utils/validationSchema'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -21,7 +13,7 @@ const LoginForm = () => {
       email: '',
       password: '',
     },
-    validationSchema: schema,
+    validationSchema: userLoginSchema,
     onSubmit: (values) => {
       dispatch(login({ email: values.email, password: values.password }))
       formik.resetForm()

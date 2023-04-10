@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import LoginForm from '../components/forms/LoginForm'
+import { reset } from '../features/user/userSlice'
 
 const LoginPage = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const { userInfo, error } = useSelector((state) => state.user)
 
@@ -15,6 +17,7 @@ const LoginPage = () => {
       toast.success('You are logged in')
     } else {
       toast.error(error)
+      dispatch(reset())
     }
   }, [userInfo, error])
   return (

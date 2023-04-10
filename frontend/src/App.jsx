@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import CreateLeavePage from './pages/CreateLeavePage'
 import EditLeavePage from './pages/EditLeavePage'
+import EditProfilePage from './pages/EditProfilePage'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -13,8 +14,8 @@ function App() {
   return (
     <BrowserRouter basename="/">
       <ToastContainer
-        position="top-right"
-        autoClose={5000}
+        position="bottom-left"
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -22,6 +23,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         theme="colored"
+        pauseOnHover
       />
       <div className="d-flex flex-column min-vh-100">
         <Header />
@@ -32,6 +34,7 @@ function App() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/create" element={<CreateLeavePage />} />
             <Route path="/edit/:id" element={<EditLeavePage />} />
+            <Route path="/profile" element={<EditProfilePage />} />
           </Routes>
         </Container>
         <Footer />

@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { getLeaveById, updateLeave } from '../../features/leave/leaveSlice'
 import dateFormat from '../../utils/dateFormat'
-import schema from '../../utils/leaveSchema'
+import { leaveSchema } from '../../utils/validationSchema'
 import Loader from '../Loader'
 
 const EditLeaveForm = () => {
@@ -36,7 +36,7 @@ const EditLeaveForm = () => {
       startDate: '',
       endDate: '',
     },
-    validationSchema: schema,
+    validationSchema: leaveSchema,
     onSubmit: (values) => {
       dispatch(updateLeave({ _id: leave._id, ...values }))
       navigate('/home')

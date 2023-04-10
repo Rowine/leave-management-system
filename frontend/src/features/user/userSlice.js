@@ -60,6 +60,65 @@ export const register = createAsyncThunk(
   }
 )
 
+export const updateUserProfile = createAsyncThunk(
+  'user/updateUserProfile',
+  async ({ name, email, password }, { rejectWithValue, getState }) => {
+    try {
+      const {
+        user: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.put(
+        '/api/users/profile',
+        { name, email, password },
+        config
+      )
+
+      localStorage.setItem('userInfo', JSON.stringify(data))
+
+      return data
+    } catch (error) {
+      return rejectWithValue(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    }
+  }
+)
+
+export const deleteUser = createAsyncThunk(
+  'user/deleteUser',
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const {
+        user: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      await axios.delete(`/api/users/${id}`, config)
+    } catch (error) {
+      return rejectWithValue(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    }
+  }
+)
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -71,6 +130,10 @@ const userSlice = createSlice({
     logout: (state) => {
       localStorage.removeItem('userInfo')
       state.userInfo = null
+      state.loading = 'idle'
+      state.error = null
+    },
+    reset: (state) => {
       state.loading = 'idle'
       state.error = null
     },
@@ -96,6 +159,28 @@ const userSlice = createSlice({
         state.userInfo = action.payload
       })
       .addCase(register.rejected, (state, action) => {
+        state.loading = 'failed'
+        state.error = action.payload
+      })
+      .addCase(updateUserProfile.pending, (state) => {
+        state.loading = 'pending'
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.loading = 'succeeded'
+        state.userInfo = action.payload
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.loading = 'failed'
+        state.error = action.payload
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.loading = 'pending'
+      })
+      .addCase(deleteUser.fulfilled, (state) => {
+        state.loading = 'succeeded'
+        state.userInfo = null
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
         state.loading = 'failed'
         state.error = action.payload
       }),

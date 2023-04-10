@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getCategories } from '../../features/category/categorySlice'
 import { createLeave } from '../../features/leave/leaveSlice'
-import schema from '../../utils/leaveSchema'
+import { leaveSchema } from '../../utils/validationSchema'
 
 const CreateLeaveForm = () => {
   const dispatch = useDispatch()
@@ -27,7 +27,7 @@ const CreateLeaveForm = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: schema,
+    validationSchema: leaveSchema,
     onSubmit: (values) => {
       dispatch(createLeave(values))
       navigate('/home')

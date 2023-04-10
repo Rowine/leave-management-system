@@ -5,12 +5,14 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { categoryReset } from '../features/category/categorySlice'
 import { leavesReset } from '../features/leave/leaveSlice'
 import { logout } from '../features/user/userSlice'
 
 const Header = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state) => state.user)
 

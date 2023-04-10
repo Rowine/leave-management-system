@@ -1,47 +1,24 @@
-import { useFormik } from 'formik'
 import { Button, Form } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-import * as yup from 'yup'
-import { register } from '../../features/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { categoryReset } from '../../features/category/categorySlice'
+import { leaveReset } from '../../features/leave/leaveSlice'
+import { deleteUser, logout } from '../../features/user/userSlice'
 
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(2, 'Names must have at least 2 characters')
-    .required('Name is required'),
-  email: yup
-    .string()
-    .email('Email must be a valid email address')
-    .required('Email is required'),
-  password: yup.string().required('Password is required'),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm Password is required'),
-})
-
-const RegisterForm = () => {
+const RegisterForm = ({ formik, update = false }) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { userInfo } = useSelector((state) => state.user)
 
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
-    validationSchema: schema,
-    onSubmit: (values) => {
-      dispatch(
-        register({
-          name: values.name,
-          email: values.email,
-          password: values.password,
-        })
-      )
-    },
-  })
+  const handleDelete = () => {
+    dispatch(deleteUser(userInfo._id))
+    dispatch(logout())
+    dispatch(leaveReset())
+    dispatch(categoryReset())
+    navigate('/')
+    toast.warning('Account deleted')
+  }
 
   return (
     <Form onSubmit={formik.handleSubmit} className="m-3">
@@ -111,16 +88,35 @@ const RegisterForm = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Register
-      </Button>
+      {update ? (
+        <Button variant="primary" type="submit" className="me-2">
+          Update
+        </Button>
+      ) : (
+        <Button variant="primary" type="submit" className="me-2">
+          Register
+        </Button>
+      )}
 
-      <p className="small fw-bold mt-2 pt-1 mb-0">
-        Already have an account?{' '}
-        <Link to="/" className="link-danger">
-          Login
-        </Link>
-      </p>
+      {update && (
+        <Button
+          variant="danger"
+          type="button"
+          className="ms-2"
+          onClick={handleDelete}
+        >
+          Delete Account
+        </Button>
+      )}
+
+      {!update && (
+        <p className="small fw-bold mt-2 pt-1 mb-0">
+          Already have an account?{' '}
+          <Link to="/" className="link-danger">
+            Login
+          </Link>
+        </p>
+      )}
     </Form>
   )
 }
