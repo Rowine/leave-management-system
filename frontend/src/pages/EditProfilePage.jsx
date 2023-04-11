@@ -1,4 +1,5 @@
 import { useFormik } from 'formik'
+
 import { useEffect } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,12 +18,12 @@ const EditProfilePage = () => {
     if (!userInfo) {
       navigate('/')
     }
-  }, [userInfo, navigate])
+  }, [navigate])
 
   const formik = useFormik({
     initialValues: {
-      name: userInfo.name,
-      email: userInfo.email,
+      name: userInfo?.name,
+      email: userInfo?.email,
       password: '',
       confirmPassword: '',
     },

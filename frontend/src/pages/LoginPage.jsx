@@ -12,7 +12,10 @@ const LoginPage = () => {
   const { userInfo, error } = useSelector((state) => state.user)
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && userInfo.isAdmin) {
+      navigate('/admin')
+      toast.success('You are logged in')
+    } else if (userInfo) {
       navigate('/home')
       toast.success('You are logged in')
     } else {

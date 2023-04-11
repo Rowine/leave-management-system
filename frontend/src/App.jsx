@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Footer from './components/Footer'
 import Header from './components/Header'
+import AdminHomePage from './pages/AdminHomePage'
 import CreateLeavePage from './pages/CreateLeavePage'
 import EditLeavePage from './pages/EditLeavePage'
 import EditProfilePage from './pages/EditProfilePage'
@@ -35,6 +36,8 @@ function App() {
             <Route path="/create" element={<CreateLeavePage />} />
             <Route path="/edit/:id" element={<EditLeavePage />} />
             <Route path="/profile" element={<EditProfilePage />} />
+
+            <Route path="/admin" element={<AdminHomePage />} />
           </Routes>
         </Container>
         <Footer />

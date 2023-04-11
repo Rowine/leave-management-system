@@ -1,7 +1,17 @@
+import { useEffect } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import CreateLeaveForm from '../components/forms/CreateLeaveForm'
 const CreateLeavePage = () => {
+  const navigate = useNavigate()
+  const { userInfo } = useSelector((state) => state.user)
+  useEffect(() => {
+    if (!userInfo) {
+      navigate('/')
+    }
+  }, [userInfo, navigate])
+
   return (
     <Container className="my-3">
       <Row>

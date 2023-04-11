@@ -25,6 +25,39 @@ const Header = () => {
     toast.success('Logout successfully')
   }
 
+  if (userInfo && userInfo.isAdmin) {
+    return (
+      <Navbar bg="light" expand="lg">
+        <Container fluid>
+          <LinkContainer to="/admin">
+            <Navbar.Brand>L.M.S</Navbar.Brand>
+          </LinkContainer>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <LinkContainer to="/admin">
+                <Nav.Link>Dashboard</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/admin/users">
+                <Nav.Link>Users</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/admin/categories">
+                <Nav.Link>Categories</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/admin/leaves">
+                <Nav.Link>Leaves</Nav.Link>
+              </LinkContainer>
+            </Nav>
+            <Button variant="primary" onClick={handleLogout}>
+              <FontAwesomeIcon icon={faRightFromBracket} /> Logout as{' '}
+              <strong>{userInfo.name}</strong>
+            </Button>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    )
+  }
+
   if (userInfo) {
     return (
       <Navbar bg="light" expand="lg">

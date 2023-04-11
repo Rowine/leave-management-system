@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import thunk from 'redux-thunk'
+import adminReducer from '../features/admin/adminSlice'
 import categoryReducer from '../features/category/categorySlice'
 import leaveReducer from '../features/leave/leaveSlice'
 import userReducer from '../features/user/userSlice'
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   leave: leaveReducer,
   category: categoryReducer,
+  admin: adminReducer,
 })
 
 const persistConfig = {

@@ -1,11 +1,21 @@
+import { useEffect } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import EditLeaveForm from '../components/forms/EditLeaveForm'
 import { leaveReset } from '../features/leave/leaveSlice'
 
 const EditLeavePage = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const { userInfo } = useSelector((state) => state.user)
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate('/')
+    }
+  }, [userInfo, navigate])
 
   const handleLeave = () => {
     dispatch(leaveReset())

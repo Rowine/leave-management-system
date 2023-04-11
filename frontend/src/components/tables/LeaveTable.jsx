@@ -1,5 +1,5 @@
 import { Table } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import dateFormat from '../../utils/dateFormat'
 import LeaveStatus from '../LeaveStatus'
 import TableAction from './TableAction'
