@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { reset } from '../features/admin/adminSlice'
 import { categoryReset } from '../features/category/categorySlice'
 import { leavesReset } from '../features/leave/leaveSlice'
 import { logout } from '../features/user/userSlice'
@@ -20,7 +21,7 @@ const Header = () => {
     dispatch(logout())
     dispatch(leavesReset())
     dispatch(categoryReset())
-
+    dispatch(reset())
     navigate('/')
     toast.success('Logout successfully')
   }

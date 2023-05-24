@@ -88,6 +88,19 @@ const RegisterForm = ({ formik, update = false }) => {
         </Form.Control.Feedback>
       </Form.Group>
 
+      {userInfo && userInfo.isAdmin && (
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <Form.Check
+            type="checkbox"
+            label="Admin"
+            name="isAdmin"
+            checked={formik.values.isAdmin}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+        </Form.Group>
+      )}
+
       {update ? (
         <Button variant="primary" type="submit" className="me-2">
           Update
@@ -98,18 +111,7 @@ const RegisterForm = ({ formik, update = false }) => {
         </Button>
       )}
 
-      {update && (
-        <Button
-          variant="danger"
-          type="button"
-          className="ms-2"
-          onClick={handleDelete}
-        >
-          Delete Account
-        </Button>
-      )}
-
-      {!update && (
+      {!userInfo && (
         <p className="small fw-bold mt-2 pt-1 mb-0">
           Already have an account?{' '}
           <Link to="/" className="link-danger">
