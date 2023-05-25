@@ -5,7 +5,8 @@ import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Loader from '../components/Loader'
-import { deleteUser, getAllUsers, getUser } from '../features/admin/adminSlice'
+import PaginationItem from '../components/Pagination'
+import { deleteUser, getAllUsers } from '../features/admin/adminSlice'
 import dateFormat from '../utils/dateFormat'
 
 const UsersPage = () => {
@@ -13,6 +14,14 @@ const UsersPage = () => {
   const [id, setId] = useState('')
   const dispatch = useDispatch()
   const { users, loading } = useSelector((state) => state.admin)
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1)
+  const [perPage] = useState(10)
+
+  const indexOfLastPost = currentPage * perPage
+  const indexOfFirstPost = indexOfLastPost - perPage
+  const currentUsers = users.slice(indexOfFirstPost, indexOfLastPost)
 
   const handleClose = () => setShow(false)
 
@@ -46,48 +55,60 @@ const UsersPage = () => {
       {loading === 'pending' ? (
         <Loader />
       ) : (
-        <Row className="my-3">
-          <Col>
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>NAME</th>
-                  <th>EMAIL</th>
-                  <th>IS ADMIN</th>
-                  <th>CREATED AT</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user._id}>
-                    <td>{user._id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.isAdmin ? 'Yes' : 'No'}</td>
-                    <td>{dateFormat(user.createdAt)}</td>
-                    <td>
-                      <Link to={`/admin/users/edit/${user._id}`}>
-                        <Button variant="light" className="btn-sm">
-                          <FontAwesomeIcon icon={faEdit} />
-                        </Button>
-                      </Link>
-                      <Button
-                        variant="danger"
-                        className="btn-sm"
-                        onClick={() => handleClick(user._id)}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </Button>
-                    </td>
+        <>
+          <Row className="my-3">
+            <Col>
+              <Table striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>EMAIL</th>
+                    <th>IS ADMIN</th>
+                    <th>CREATED AT</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
+                </thead>
+                <tbody>
+                  {currentUsers.map((user) => (
+                    <tr key={user._id}>
+                      <td>{user._id}</td>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>{user.isAdmin ? 'Yes' : 'No'}</td>
+                      <td>{dateFormat(user.createdAt)}</td>
+                      <td>
+                        <Link to={`/admin/users/edit/${user._id}`}>
+                          <Button variant="light" className="btn-sm">
+                            <FontAwesomeIcon icon={faEdit} />
+                          </Button>
+                        </Link>
+                        <Button
+                          variant="danger"
+                          className="btn-sm"
+                          onClick={() => handleClick(user._id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <PaginationItem
+                perPage={perPage}
+                total={users.length}
+                paginate={setCurrentPage}
+              />
+            </Col>
+          </Row>
+        </>
       )}
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Delete User</Modal.Title>

@@ -82,6 +82,33 @@ export const getAllLeaves = createAsyncThunk(
   }
 )
 
+export const getLeavesByStatus = createAsyncThunk(
+  'admin/getLeavesByStatus',
+  async (status, { rejectWithValue, getState }) => {
+    try {
+      const {
+        user: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.get(`/api/leaves/status/${status}`, config)
+
+      return data
+    } catch (error) {
+      return rejectWithValue(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    }
+  }
+)
+
 export const getUser = createAsyncThunk(
   'admin/getUser',
   async (id, { rejectWithValue, getState }) => {
@@ -194,6 +221,70 @@ export const updateUser = createAsyncThunk(
   }
 )
 
+export const approveLeave = createAsyncThunk(
+  'admin/approveLeave',
+  async (leave, { rejectWithValue, getState }) => {
+    try {
+      const {
+        user: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.put(
+        `/api/leaves/${leave._id}/approve`,
+        leave,
+        config
+      )
+
+      return data
+    } catch (error) {
+      return rejectWithValue(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    }
+  }
+)
+
+export const rejectLeave = createAsyncThunk(
+  'admin/rejectLeave',
+  async (leave, { rejectWithValue, getState }) => {
+    try {
+      const {
+        user: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.put(
+        `/api/leaves/${leave._id}/reject`,
+        leave,
+        config
+      )
+
+      return data
+    } catch (error) {
+      return rejectWithValue(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    }
+  }
+)
+
 const adminSlice = createSlice({
   name: 'admin',
   initialState: {
@@ -254,6 +345,21 @@ const adminSlice = createSlice({
         state.loading = 'idle'
         state.error = action.payload
       })
+      .addCase(getLeavesByStatus.pending, (state) => {
+        state.loading = 'pending'
+      })
+      .addCase(getLeavesByStatus.fulfilled, (state, action) => {
+        state.loading = 'idle'
+        state.leaves = action.payload
+
+        if (action.payload.length === 0) {
+          state.error = 'No leaves found'
+        }
+      })
+      .addCase(getLeavesByStatus.rejected, (state, action) => {
+        state.loading = 'idle'
+        state.error = action.payload
+      })
       .addCase(getUser.pending, (state) => {
         state.loading = 'pending'
       })
@@ -297,6 +403,32 @@ const adminSlice = createSlice({
         )
       })
       .addCase(updateUser.rejected, (state, action) => {
+        state.loading = 'idle'
+        state.error = action.payload
+      })
+      .addCase(approveLeave.pending, (state) => {
+        state.loading = 'pending'
+      })
+      .addCase(approveLeave.fulfilled, (state, action) => {
+        state.loading = 'idle'
+        state.leaves = state.leaves.map((leave) =>
+          leave._id === action.payload._id ? action.payload : leave
+        )
+      })
+      .addCase(approveLeave.rejected, (state, action) => {
+        state.loading = 'idle'
+        state.error = action.payload
+      })
+      .addCase(rejectLeave.pending, (state) => {
+        state.loading = 'pending'
+      })
+      .addCase(rejectLeave.fulfilled, (state, action) => {
+        state.loading = 'idle'
+        state.leaves = state.leaves.map((leave) =>
+          leave._id === action.payload._id ? action.payload : leave
+        )
+      })
+      .addCase(rejectLeave.rejected, (state, action) => {
         state.loading = 'idle'
         state.error = action.payload
       }),

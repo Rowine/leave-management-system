@@ -5,6 +5,7 @@ import {
   deleteLeave,
   getLeaveById,
   getLeaves,
+  getLeavesByStatus,
   rejectLeave,
   updateLeave,
 } from '../controllers/leaveController.js'
@@ -12,6 +13,7 @@ import { admin, protect } from '../middleware/authMiddleware.js'
 const router = express.Router()
 
 router.route('/').get(protect, admin, getLeaves).post(protect, createLeave)
+router.route('/status/:status').get(protect, admin, getLeavesByStatus)
 router
   .route('/:id')
   .get(protect, getLeaveById)

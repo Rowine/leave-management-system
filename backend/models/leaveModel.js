@@ -27,7 +27,7 @@ const leaveSchema = mongoose.Schema(
     status: {
       type: String,
       required: true,
-      default: 'Pending',
+      default: 'pending',
     },
     approvedBy: {
       type: mongoose.Schema.Types.ObjectId,

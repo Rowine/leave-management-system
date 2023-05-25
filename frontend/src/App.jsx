@@ -6,6 +6,7 @@ import Header from './components/Header'
 import AdminCreatePage from './pages/AdminCreatePage'
 import AdminEditPage from './pages/AdminEditPage'
 import AdminHomePage from './pages/AdminHomePage'
+import AdminLeavesPage from './pages/AdminLeavesPage'
 import CreateLeavePage from './pages/CreateLeavePage'
 import EditLeavePage from './pages/EditLeavePage'
 import EditProfilePage from './pages/EditProfilePage'
@@ -44,6 +45,7 @@ function App() {
             <Route path="/admin/users" element={<UsersPage />} />
             <Route path="/admin/users/create" element={<AdminCreatePage />} />
             <Route path="/admin/users/edit/:id" element={<AdminEditPage />} />
+            <Route path="/admin/leaves" element={<AdminLeavesPage />} />
           </Routes>
         </Container>
         <Footer />

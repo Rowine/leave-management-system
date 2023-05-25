@@ -6,6 +6,22 @@ import Leave from '../models/leaveModel.js'
 // @access  Private/Admin
 const getLeaves = asyncHandler(async (req, res) => {
   const leaves = await Leave.find({})
+    .populate('user', 'id name')
+    .populate('category', 'id name')
+
+  res.json(leaves)
+})
+
+// @desc    Get leaves by status
+// @route   GET /api/leaves/status/:status
+// @access  Private/Admin
+const getLeavesByStatus = asyncHandler(async (req, res) => {
+  const status = req.params.status
+
+  const leaves = await Leave.find({ status })
+    .populate('user', 'id name')
+    .populate('category', 'id name')
+
   res.json(leaves)
 })
 
@@ -47,7 +63,7 @@ const createLeave = asyncHandler(async (req, res) => {
   const existingLeave = await Leave.findOne({
     user: userId,
     startDate,
-    status: 'Pending',
+    status: 'pending',
   })
   if (existingLeave) {
     res.status(400)
@@ -90,13 +106,16 @@ const updateLeave = asyncHandler(async (req, res) => {
 
 const approveLeave = asyncHandler(async (req, res) => {
   const leave = await Leave.findById(req.params.id)
+    .populate('user', 'id name email')
+    .populate('category', 'id name')
 
-  if (leave.status === 'Pending') {
-    leave.status = 'Approved'
+  if (leave.status === 'pending') {
+    leave.status = 'approved'
     leave.approvedBy = req.user._id
     leave.approvedAt = Date.now()
 
     const updatedLeave = await leave.save()
+
     res.json(updatedLeave)
   } else {
     res.status(404)
@@ -107,8 +126,8 @@ const approveLeave = asyncHandler(async (req, res) => {
 const rejectLeave = asyncHandler(async (req, res) => {
   const leave = await Leave.findById(req.params.id)
 
-  if (leave.status === 'Pending') {
-    leave.status = 'Rejected'
+  if (leave.status === 'pending') {
+    leave.status = 'rejected'
     leave.rejectedBy = req.user._id
     leave.rejectedAt = Date.now()
 
@@ -126,6 +145,7 @@ export {
   deleteLeave,
   getLeaveById,
   getLeaves,
+  getLeavesByStatus,
   rejectLeave,
   updateLeave,
 }
