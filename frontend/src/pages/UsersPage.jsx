@@ -37,8 +37,8 @@ const UsersPage = () => {
   }
 
   useEffect(() => {
-    if (!users.length) dispatch(getAllUsers())
-  }, [users])
+    dispatch(getAllUsers())
+  }, [])
 
   return (
     <Container>

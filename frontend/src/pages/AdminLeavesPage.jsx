@@ -11,7 +11,6 @@ import {
   Row,
   Table,
 } from 'react-bootstrap'
-import Pagination from 'react-bootstrap/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import PaginationItem from '../components/Pagination'

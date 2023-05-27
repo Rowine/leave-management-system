@@ -52,4 +52,14 @@ const leaveSchema = yup.object().shape({
     .min(yup.ref('startDate'), 'End date must be after start date'),
 })
 
-export { leaveSchema, userLoginSchema, userRegisterSchema, userUpdateSchema }
+const categorySchema = yup.object().shape({
+  name: yup.string().required('Name is required'),
+})
+
+export {
+  categorySchema,
+  leaveSchema,
+  userLoginSchema,
+  userRegisterSchema,
+  userUpdateSchema,
+}

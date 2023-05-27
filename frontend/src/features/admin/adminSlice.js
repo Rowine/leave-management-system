@@ -55,6 +55,61 @@ export const getAllCategories = createAsyncThunk(
   }
 )
 
+export const createCategory = createAsyncThunk(
+  'admin/createCategory',
+  async (category, { rejectWithValue, getState }) => {
+    try {
+      const {
+        user: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.post('/api/categories', category, config)
+
+      return data
+    } catch (error) {
+      return rejectWithValue(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    }
+  }
+)
+
+export const deleteCategory = createAsyncThunk(
+  'admin/deleteCategory',
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const {
+        user: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      await axios.delete(`/api/categories/${id}`, config)
+
+      return id
+    } catch (error) {
+      return rejectWithValue(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    }
+  }
+)
+
 export const getAllLeaves = createAsyncThunk(
   'admin/getAllLeaves',
   async (_, { rejectWithValue, getState }) => {
@@ -331,6 +386,30 @@ const adminSlice = createSlice({
         state.categories = action.payload
       })
       .addCase(getAllCategories.rejected, (state, action) => {
+        state.loading = 'idle'
+        state.error = action.payload
+      })
+      .addCase(createCategory.pending, (state) => {
+        state.loading = 'pending'
+      })
+      .addCase(createCategory.fulfilled, (state, action) => {
+        state.loading = 'idle'
+        state.categories.push(action.payload)
+      })
+      .addCase(createCategory.rejected, (state, action) => {
+        state.loading = 'idle'
+        state.error = action.payload
+      })
+      .addCase(deleteCategory.pending, (state) => {
+        state.loading = 'pending'
+      })
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        state.loading = 'idle'
+        state.categories = state.categories.filter(
+          (category) => category._id !== action.payload
+        )
+      })
+      .addCase(deleteCategory.rejected, (state, action) => {
         state.loading = 'idle'
         state.error = action.payload
       })

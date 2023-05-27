@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Footer from './components/Footer'
 import Header from './components/Header'
+import AdminCategoriesPage from './pages/AdminCategoriesPage'
 import AdminCreatePage from './pages/AdminCreatePage'
 import AdminEditPage from './pages/AdminEditPage'
 import AdminHomePage from './pages/AdminHomePage'
@@ -14,6 +15,7 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import UsersPage from './pages/UsersPage'
+import CreateCategoryPage from './pages/CreateCategoryPage'
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
             <Route path="/admin/users/create" element={<AdminCreatePage />} />
             <Route path="/admin/users/edit/:id" element={<AdminEditPage />} />
             <Route path="/admin/leaves" element={<AdminLeavesPage />} />
+            <Route path="admin/categories" element={<AdminCategoriesPage />} />
+            <Route path="admin/categories/create" element={<CreateCategoryPage />} />
           </Routes>
         </Container>
         <Footer />
