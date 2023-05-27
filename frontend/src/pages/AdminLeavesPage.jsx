@@ -13,7 +13,7 @@ import {
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
-import PaginationItem from '../components/Pagination'
+import PaginationItem from '../components/PaginationItem'
 import {
   approveLeave,
   getAllLeaves,

@@ -5,7 +5,7 @@ import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Loader from '../components/Loader'
-import PaginationItem from '../components/Pagination'
+import PaginationItem from '../components/PaginationItem'
 import { deleteUser, getAllUsers } from '../features/admin/adminSlice'
 import dateFormat from '../utils/dateFormat'
 
@@ -61,7 +61,6 @@ const UsersPage = () => {
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>
-                    <th>ID</th>
                     <th>NAME</th>
                     <th>EMAIL</th>
                     <th>IS ADMIN</th>
@@ -72,7 +71,6 @@ const UsersPage = () => {
                 <tbody>
                   {currentUsers.map((user) => (
                     <tr key={user._id}>
-                      <td>{user._id}</td>
                       <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>{user.isAdmin ? 'Yes' : 'No'}</td>

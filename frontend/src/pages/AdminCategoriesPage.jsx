@@ -5,7 +5,7 @@ import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Loader from '../components/Loader'
-import PaginationItem from '../components/Pagination'
+import PaginationItem from '../components/PaginationItem'
 import { deleteCategory, getAllCategories } from '../features/admin/adminSlice'
 
 const AdminCategoriesPage = () => {

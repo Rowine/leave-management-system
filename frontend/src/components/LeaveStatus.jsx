@@ -2,9 +2,9 @@ import { Badge } from 'react-bootstrap'
 
 const LeaveStatus = ({ status }) => {
   const statusColor = {
-    Pending: 'warning',
-    Approved: 'success',
-    Rejected: 'danger',
+    pending: 'warning',
+    approved: 'success',
+    rejected: 'danger',
   }
   return (
     <Badge bg={statusColor[status]} className="text-capitalize">

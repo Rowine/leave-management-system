@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { deleteLeave } from '../../features/leave/leaveSlice'
 
-const TableAction = ({ id }) => {
+const TableAction = ({ id, disable }) => {
   const dispatch = useDispatch()
 
   const handleDelete = (id) => {
@@ -15,19 +15,30 @@ const TableAction = ({ id }) => {
 
   return (
     <div className="d-flex justify-content-center">
-      <Link to={`/edit/${id}`}>
-        <button type="button" className="btn btn-sm btn-warning me-2">
+      {disable ? (
+        <button type="button" className="btn btn-sm btn-warning me-2" disabled>
           <FontAwesomeIcon icon={faPenToSquare} />
         </button>
-      </Link>
-
-      <button
-        type="button"
-        className="btn btn-sm btn-danger"
-        onClick={() => handleDelete(id)}
-      >
-        <FontAwesomeIcon icon={faTrash} />
-      </button>
+      ) : (
+        <Link to={`/leaves/${id}/edit`}>
+          <button type="button" className="btn btn-sm btn-warning me-2">
+            <FontAwesomeIcon icon={faPenToSquare} />
+          </button>
+        </Link>
+      )}
+      {disable ? (
+        <button type="button" className="btn btn-sm btn-danger" disabled>
+          <FontAwesomeIcon icon={faTrash} />
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="btn btn-sm btn-danger"
+          onClick={() => handleDelete(id)}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </button>
+      )}
     </div>
   )
 }

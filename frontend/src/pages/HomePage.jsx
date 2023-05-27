@@ -45,9 +45,15 @@ const HomePage = () => {
           </Link>
         </div>
       </div>
-      <div className="py-3">
-        {loading === 'pending' ? <Loader /> : <LeaveTable leaves={leaves} />}
-      </div>
+      {leaves.length === 0 ? (
+        <div className="alert alert-info" role="alert">
+          No leaves found. Please create one.
+        </div>
+      ) : (
+        <div className="py-3">
+          {loading === 'pending' ? <Loader /> : <LeaveTable leaves={leaves} />}
+        </div>
+      )}
     </>
   )
 }
