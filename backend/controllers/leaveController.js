@@ -62,8 +62,11 @@ const createLeave = asyncHandler(async (req, res) => {
 
   const existingLeave = await Leave.findOne({
     user: userId,
-    startDate,
-    status: 'pending',
+    $or: [
+      { startDate: { $lte: endDate }, endDate: { $gte: startDate } }, // Check if existing leave overlaps with the new leave
+      { startDate: { $gte: startDate, $lte: endDate } }, // Check if existing leave starts during the new leave
+      { endDate: { $gte: startDate, $lte: endDate } }, // Check if existing leave ends during the new leave
+    ],
   })
   if (existingLeave) {
     res.status(400)
